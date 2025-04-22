@@ -1,7 +1,6 @@
 package assignment9;
 
-import java.awt.Color;
-
+import java.util.Random;
 import edu.princeton.cs.introcs.StdDraw;
 
 public class Food {
@@ -13,14 +12,25 @@ public class Food {
 	 * Creates a new Food at a random location
 	 */
 	public Food() {
-		//FIXME
+		Random r = new Random();
+		// Keep food within 0.05 and 0.95 to avoid edges
+		this.x = 0.05 + r.nextDouble() * 0.9;
+		this.y = 0.05 + r.nextDouble() * 0.9;
 	}
 	
 	/**
 	 * Draws the Food
 	 */
 	public void draw() {
-		//FIXME
+		StdDraw.setPenColor(StdDraw.RED);
+		StdDraw.filledCircle(x, y, FOOD_SIZE);
 	}
-	
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
 }

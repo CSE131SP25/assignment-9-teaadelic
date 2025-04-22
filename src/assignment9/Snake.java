@@ -11,58 +11,86 @@ public class Snake {
 	private double deltaY;
 	
 	public Snake() {
-		//FIXME - set up the segments instance variable
-		deltaX = 0;
+		segments = new LinkedList<>();
+		// Start with one segment in the center of the screen
+		segments.add(new BodySegment(0.5, 0.5, SEGMENT_SIZE));
+
+		// Start moving to the right by default
+		deltaX = MOVEMENT_SIZE;
 		deltaY = 0;
 	}
 	
+	/**
+	 * Updates direction of snake based on input
+	 */
 	public void changeDirection(int direction) {
-		if(direction == 1) { //up
+		if(direction == 1) { // up
 			deltaY = MOVEMENT_SIZE;
 			deltaX = 0;
-		} else if (direction == 2) { //down
+		} else if (direction == 2) { // down
 			deltaY = -MOVEMENT_SIZE;
 			deltaX = 0;
-		} else if (direction == 3) { //left
+		} else if (direction == 3) { // left
 			deltaY = 0;
 			deltaX = -MOVEMENT_SIZE;
-		} else if (direction == 4) { //right
+		} else if (direction == 4) { // right
 			deltaY = 0;
 			deltaX = MOVEMENT_SIZE;
 		}
 	}
 	
 	/**
-	 * Moves the snake by updating the position of each of the segments
-	 * based on the current direction of travel
+	 * Moves the snake forward in the current direction.
+	 * Shifts all segments so each one follows the one in front.
 	 */
 	public void move() {
-		//FIXME
+		// Move tail segments to the position of the one before it
+		for (int i = segments.size() - 1; i > 0; i--) {
+			BodySegment prev = segments.get(i - 1);
+			segments.get(i).setPosition(prev.getX(), prev.getY());
+		}
+
+		// Move head in current direction
+		BodySegment head = segments.get(0);
+		double newX = head.getX() + deltaX;
+		double newY = head.getY() + deltaY;
+		head.setPosition(newX, newY);
 	}
 	
 	/**
-	 * Draws the snake by drawing each segment
+	 * Draws all segments of the snake
 	 */
 	public void draw() {
-		//FIXME
+		for (BodySegment segment : segments) {
+			segment.draw();
+		}
 	}
 	
 	/**
-	 * The snake attempts to eat the given food, growing if it does so successfully
-	 * @param f the food to be eaten
-	 * @return true if the snake successfully ate the food
+	 * If head touches food, grow the snake and return true.
 	 */
 	public boolean eatFood(Food f) {
-		//FIXME
+		BodySegment head = segments.get(0);
+		double dx = head.getX() - f.getX();
+		double dy = head.getY() - f.getY();
+		double distance = Math.sqrt(dx * dx + dy * dy);
+
+		if (distance <= SEGMENT_SIZE + Food.FOOD_SIZE) {
+			// Add a new segment at the position of the last segment
+			BodySegment tail = segments.get(segments.size() - 1);
+			segments.add(new BodySegment(tail.getX(), tail.getY(), SEGMENT_SIZE));
+			return true;
+		}
 		return false;
 	}
 	
 	/**
-	 * Returns true if the head of the snake is in bounds
-	 * @return whether or not the head is in the bounds of the window
+	 * Returns true if the snake's head is within screen boundaries
 	 */
 	public boolean isInbounds() {
-		//FIXME
-		return true;
+		BodySegment head = segments.get(0);
+		double x = head.getX();
+		double y = head.getY();
+		return x >= 0 && x <= 1 && y >= 0 && y <= 1;
 	}
 }
