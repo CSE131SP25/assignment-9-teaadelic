@@ -20,8 +20,9 @@ public class Game {
 		score = 0;
 		play();
 	}
-
+// new food
 	public void play() {
+		//
 		while (snake.isInbounds()) {
 			int dir = getKeypress();
 			if (dir != -1) {
@@ -29,10 +30,11 @@ public class Game {
 			}
 
 			snake.move();
-
-			if (snake.eatFood(food)) {
-				food = new Food();
+         
+			if (snake.eatFood(food)) { 
+				food = new Food(); //respawns
 				score++;
+//score increase
 			}
 
 			updateDrawing();
@@ -54,7 +56,7 @@ public class Game {
 			return -1;
 		}
 	}
-
+//score text updated
 	private void updateDrawing() {
 		StdDraw.clear();
 
@@ -94,7 +96,7 @@ public class Game {
 				if (mouseX >= buttonX && mouseX <= buttonX + width &&
 					mouseY >= buttonY && mouseY <= buttonY + height) {
 					StdDraw.pause(200); // Debounce click
-					startNewGame();
+					startNewGame(); //start over
 					break;
 				}
 			}

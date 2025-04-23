@@ -43,6 +43,7 @@ public class Snake {
 	 * Moves the snake forward in the current direction.
 	 * Shifts all segments so each one follows the one in front.
 	 */
+	//
 	public void move() {
 		// Move tail segments to the position of the one before it
 		for (int i = segments.size() - 1; i > 0; i--) {
@@ -69,6 +70,7 @@ public class Snake {
 	/**
 	 * If head touches food, grow the snake and return true.
 	 */
+	//Q
 	public boolean eatFood(Food f) {
 		BodySegment head = segments.get(0);
 		double dx = head.getX() - f.getX();
@@ -76,7 +78,7 @@ public class Snake {
 		double distance = Math.sqrt(dx * dx + dy * dy);
 
 		if (distance <= SEGMENT_SIZE + Food.FOOD_SIZE) {
-			// Add a new segment at the position of the last segment
+			// Add a new segment at the position of the last segment, added to segments list
 			BodySegment tail = segments.get(segments.size() - 1);
 			segments.add(new BodySegment(tail.getX(), tail.getY(), SEGMENT_SIZE));
 			return true;
@@ -87,6 +89,7 @@ public class Snake {
 	/**
 	 * Returns true if the snake's head is within screen boundaries
 	 */
+	//
 	public boolean isInbounds() {
 		BodySegment head = segments.get(0);
 		double x = head.getX();
@@ -94,3 +97,7 @@ public class Snake {
 		return x >= 0 && x <= 1 && y >= 0 && y <= 1;
 	}
 }
+
+
+
+
